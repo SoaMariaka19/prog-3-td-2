@@ -18,8 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest(classes = FootApi.class)
 @AutoConfigureMockMvc
@@ -32,6 +31,7 @@ class PlayerIntegrationTest {
         return Player.builder()
                 .id(1)
                 .name("J1")
+                .teamName("E1")
                 .isGuardian(false)
                 .build();
     }
@@ -40,6 +40,7 @@ class PlayerIntegrationTest {
         return Player.builder()
                 .id(2)
                 .name("J2")
+                .teamName("E1")
                 .isGuardian(false)
                 .build();
     }
@@ -48,6 +49,7 @@ class PlayerIntegrationTest {
         return Player.builder()
                 .id(3)
                 .name("J3")
+                .teamName("E2")
                 .isGuardian(false)
                 .build();
     }
@@ -61,7 +63,7 @@ class PlayerIntegrationTest {
         List<Player> actual = convertFromHttpResponse(response);
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals(9, actual.size());
+        assertEquals(12, actual.size());
         assertTrue(actual.containsAll(List.of(
                 player1(),
                 player2(),
@@ -71,6 +73,7 @@ class PlayerIntegrationTest {
     @Test
     void create_players_ok() throws Exception {
         Player toCreate = Player.builder()
+                .id(12)
                 .name("Joe Doe")
                 .isGuardian(false)
                 .teamName("E1")
@@ -85,9 +88,29 @@ class PlayerIntegrationTest {
         List<Player> actual = convertFromHttpResponse(response);
 
         assertEquals(1, actual.size());
-        assertEquals(toCreate, actual.get(0).toBuilder().id(null).build());
+        assertEquals(toCreate, actual.get(0).toBuilder().id(toCreate.getId()).build());
     }
 
+    @Test
+    void change_players_ok() throws Exception {
+        Player toChange = Player.builder()
+                .id(1)
+                .name("Jean")
+                .isGuardian(true)
+                .teamName("E1")
+                .build();
+        MockHttpServletResponse response = mockMvc
+                .perform(put("/players")
+                        .content(objectMapper.writeValueAsString(List.of(toChange)))
+                        .contentType("application/json")
+                        .accept("application/json"))
+                .andReturn()
+                .getResponse();
+        List<Player> actual = convertFromHttpResponse(response);
+
+        assertEquals(1, actual.size());
+        assertEquals(toChange, actual.get(0).toBuilder().build());
+    }
     private List<Player> convertFromHttpResponse(MockHttpServletResponse response)
             throws JsonProcessingException, UnsupportedEncodingException {
         CollectionType playerListType = objectMapper.getTypeFactory()

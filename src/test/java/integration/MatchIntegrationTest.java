@@ -85,6 +85,7 @@ class MatchIntegrationTest {
         return Player.builder()
                 .id(6)
                 .name("J6")
+                .teamName("E3")
                 .isGuardian(false)
                 .build();
     }
@@ -93,6 +94,7 @@ class MatchIntegrationTest {
         return Player.builder()
                 .id(3)
                 .name("J3")
+                .teamName("E2")
                 .isGuardian(false)
                 .build();
     }

@@ -22,19 +22,27 @@ public class PlayerController {
     public List<Player> getPlayers() {
         return service.getPlayers().stream()
                 .map(mapper::toRest)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     @PostMapping("/players")
     public List<Player> addPlayers(@RequestBody List<Player> toCreate) {
         List<app.foot.model.Player> domain = toCreate.stream()
                 .map(mapper::toDomain)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
         return service.createPlayers(domain).stream()
                 .map(mapper::toRest)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     //TODO: add PUT /players where you can modify the name and the guardian status of a player
+    public List<Player> changePlayer(
+            @RequestBody List<Player> toChange
+    ){
+        List<app.foot.model.Player> domain = toChange.stream()
+                .map(mapper::toDomain).toList();
+        return service.changePlayer(domain).stream()
+                .map(mapper::toRest).toList();
+    }
     // Don't forget to add integration tests for this
 }
