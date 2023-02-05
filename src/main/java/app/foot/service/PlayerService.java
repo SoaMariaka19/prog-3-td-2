@@ -10,14 +10,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class PlayerService {
     private final PlayerRepository repository;
-    private final PlayerMapper mapper;
     private final TeamRepository teamRepository;
+    private final PlayerMapper mapper;
 
     public List<Player> getPlayers() {
         return repository.findAll().stream()
@@ -37,13 +38,10 @@ public class PlayerService {
         return teamRepository.getById(id);
     }
 
-
     public List<Player> createPlayers(List<Player> toCreate) {
         return repository.saveAll(toCreate.stream()
-                        .map(mapper::toEntity)
-                        .toList()).stream()
-                .map(mapper::toDomain)
-                .toList();
+                        .map(mapper::toEntity).toList()).stream()
+                .map(mapper::toDomain).toList();
     }
 
     public List<Player> changePlayer(List<Player> toChange) {

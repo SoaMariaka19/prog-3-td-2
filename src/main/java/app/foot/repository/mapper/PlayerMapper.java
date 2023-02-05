@@ -10,6 +10,9 @@ import app.foot.repository.entity.PlayerScoreEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class PlayerMapper {
@@ -43,7 +46,7 @@ public class PlayerMapper {
                 .build();
     }
 
-    //TODO: add unit test ok and ko for this
+    //TODO: add unit test ok and ko for this   --DONE--
     public PlayerEntity toEntity(Player domain) {
         return PlayerEntity.builder()
                 .id(domain.getId())
