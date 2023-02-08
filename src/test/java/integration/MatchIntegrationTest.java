@@ -290,7 +290,6 @@ public class MatchIntegrationTest {
         assertEquals(exceptionBuilder.toString() , error.getRootCause().getMessage());
     }
 
-}
 
 }
 
