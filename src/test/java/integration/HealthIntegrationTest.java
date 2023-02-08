@@ -27,4 +27,8 @@ public class HealthIntegrationTest {
 
         assertEquals("pong", response.getContentAsString());
     }
+
 }
+
+}
+

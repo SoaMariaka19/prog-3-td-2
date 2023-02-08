@@ -135,4 +135,8 @@ class MatchIntegrationTest {
                 response.getContentAsString(),
                 playerListType);
     }
+
 }
+
+}
+
