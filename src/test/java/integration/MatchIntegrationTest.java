@@ -289,4 +289,8 @@ public class MatchIntegrationTest {
                 .getResponse());
         assertEquals(exceptionBuilder.toString() , error.getRootCause().getMessage());
     }
+
 }
+
+}
+
