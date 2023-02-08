@@ -103,11 +103,13 @@ public class GoalValidatorTest {
     @Test
     void accept_ko() {
 
-        exceptionBuilder.append("Score minute is mandatory.");
+        exceptionBuilder
+                .append("400 BAD_REQUEST : ")
+                .append("Score minute is mandatory.");
 
         RuntimeException error = assertThrows(RuntimeException.class , () -> subject.accept(playerScoringInMandatoryTime()));
 
-        assertEquals(exceptionBuilder.toString() , error.getMessage());
+        assertEquals(exceptionBuilder.toString(), error.getMessage());
     }
 
     @Test
