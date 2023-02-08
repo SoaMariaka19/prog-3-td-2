@@ -8,6 +8,7 @@ import app.foot.repository.TeamRepository;
 import app.foot.repository.entity.MatchEntity;
 import app.foot.repository.entity.PlayerEntity;
 import app.foot.repository.entity.PlayerScoreEntity;
+import app.foot.repository.entity.TeamEntity;
 import app.foot.repository.mapper.PlayerMapper;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static utils.TestUtils.*;
@@ -129,4 +129,76 @@ public class PlayerMapperTest {
 
         assertThrows(NoSuchElementException.class , () -> subject.toEntity(matchEntity1.getId(),actual));
     }
+
+    @Test
+    void player_to_entity_ok(){
+
+        Player player = Player.builder()
+                .isGuardian(false)
+                .name("Soa")
+                .teamName("Team")
+                .id(1)
+                .build();
+
+        TeamEntity team = TeamEntity.builder()
+                .name("Team")
+                .id(1)
+                .build();
+
+        PlayerEntity expected = PlayerEntity.builder()
+                .team(team)
+                .guardian(player.getIsGuardian())
+                .name(player.getName())
+                .id(player.getId())
+                .build();
+
+
+    when(teamRepositoryMock.findByName(player.getTeamName()))
+            .thenReturn(team);
+
+        PlayerEntity actual = subject.toEntity(player);
+
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void player_to_entity_ko(){
+
+        Player player = Player.builder()
+                .isGuardian(false)
+                .name("Soa")
+                .teamName("Team")
+                .id(1)
+                .build();
+
+        Player player1 = Player.builder()
+                .isGuardian(false)
+                .name("Soa")
+                .teamName(null)
+                .id(1)
+                .build();
+
+
+        TeamEntity team = TeamEntity.builder()
+                .name("Team")
+                .id(1)
+                .build();
+
+        PlayerEntity expected = PlayerEntity.builder()
+                .team(team)
+                .guardian(player.getIsGuardian())
+                .name(player.getName())
+                .id(player.getId())
+                .build();
+
+
+        when(teamRepositoryMock.findByName(player.getTeamName()))
+                .thenReturn(null);
+
+
+        PlayerEntity actual = subject.toEntity(player);
+
+        assertNotEquals(expected, actual);
+    }
+
 }

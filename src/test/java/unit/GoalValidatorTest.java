@@ -119,6 +119,7 @@ public class GoalValidatorTest {
         PlayerScorer playerScorer = secondModelScorer(guardianScorer(playerScorerEntity),playerScorerEntity);
 
         exceptionBuilder
+                .append("400 BAD_REQUEST : ")
                 .append("Player#")
                 .append(playerScorer.getPlayer().getId())
                 .append(" is a guardian ").append("so they cannot score.");
@@ -132,7 +133,9 @@ public class GoalValidatorTest {
     void when_score_time_greater_than_90_throws_exception() {
         PlayerScorer playerScorer = playerScoringIn90();
 
-        exceptionBuilder.append("Player#")
+        exceptionBuilder
+                .append("400 BAD_REQUEST : ")
+                .append("Player#")
                 .append(playerScorer.getPlayer().getName())
                 .append(" cannot score before after minute 90.");
 
@@ -145,7 +148,9 @@ public class GoalValidatorTest {
     void when_score_time_less_than_0_throws_exception() {
         PlayerScorer playerScorer = playerScoringInLess0();
 
-        exceptionBuilder.append("Player#")
+        exceptionBuilder
+                .append("400 BAD_REQUEST : ")
+                .append("Player#")
                 .append(playerScorer.getPlayer().getId())
                 .append(" cannot score before before minute 0.");
 

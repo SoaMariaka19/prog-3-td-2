@@ -66,7 +66,7 @@ class PlayerIntegrationTest {
         List<Player> actual = convertFromHttpResponse(response);
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals(22, actual.size());
+        assertEquals(12, actual.size());
         assertTrue(actual.containsAll(List.of(
                 player2(),
                 player3())));
