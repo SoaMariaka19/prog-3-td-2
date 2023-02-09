@@ -1,4 +1,5 @@
-package com.hei.prog3td2.exception;
+package app.foot.model;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

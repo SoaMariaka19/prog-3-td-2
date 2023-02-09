@@ -1,5 +1,8 @@
-package com.hei.prog3td2.exception;
+package app.foot.exception;
 
+
+import app.foot.model.ErrorDetailsFormat;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,8 +15,8 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
 	// handling specific exception
-	@ExceptionHandler(NotFoundException.class)
-	public ResponseEntity<ErrorDetailsFormat> NotFoundExceptionHandling(NotFoundException exception, WebRequest request){
+	@ExceptionHandler(ChangeSetPersister.NotFoundException.class)
+	public ResponseEntity<ErrorDetailsFormat> NotFoundExceptionHandling(ChangeSetPersister.NotFoundException exception, WebRequest request){
 		ErrorDetailsFormat errorDetailsFormat =
 				new ErrorDetailsFormat(new Date(), exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetailsFormat, HttpStatus.NOT_FOUND);
